@@ -15,18 +15,11 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-          
-      # هنا السر: أخبرنا GitHub أن يدخل لمجلد المشروع أولاً
+
+      # تأكد من أننا نستخدم النسخة الصحيحة من Gradle داخل المجلد
       - name: Grant execute permission for gradlew
-        run: chmod +x gradlew
-        working-directory: ./chess_projct
+        run: chmod +x ./chess_projct/gradlew
 
+      # التشغيل من المجلد الرئيسي مع تحديد مسار المشروع
       - name: Build with Gradle
-        run: ./gradlew assembleDebug
-        working-directory: ./chess_projct
-
-      - name: Upload APK
-        uses: actions/upload-artifact@v4
-        with:
-          name: chess-app
-          path: chess_projct/app/build/outputs/apk/debug/app-debug.apk
+        run: ./chess_projct/gradlew assembleDebug -p ./chess_projct
