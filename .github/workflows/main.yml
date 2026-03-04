@@ -2,7 +2,7 @@ name: Build Chess APK
 
 on:
   push:
-    branches: [ "main" ] # أو اسم الفرع عندك
+    branches: [ "main" ]
 
 jobs:
   build:
@@ -16,14 +16,17 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
           
+      # هنا السر: أخبرنا GitHub أن يدخل لمجلد المشروع أولاً
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
+        working-directory: ./chess_projct
 
       - name: Build with Gradle
         run: ./gradlew assembleDebug
+        working-directory: ./chess_projct
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: chess-app
-          path: app/build/outputs/apk/debug/app-debug.apk
+          path: chess_projct/app/build/outputs/apk/debug/app-debug.apk
